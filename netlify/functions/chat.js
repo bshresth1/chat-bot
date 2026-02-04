@@ -1,22 +1,39 @@
 exports.handler = async function(event, context) {
-  // Only allow POST requests
   if (event.httpMethod !== "POST") {
     return { statusCode: 405, body: "Method Not Allowed" };
   }
 
   try {
     const { message } = JSON.parse(event.body);
-    
-    // 1. Get the Google Key from Netlify
     const API_KEY = process.env.GOOGLE_API_KEY; 
 
     if (!API_KEY) {
-      console.error("Error: Google API Key is missing in Netlify Settings.");
-      return { statusCode: 500, body: JSON.stringify({ error: "Server Configuration Error" }) };
+      return { statusCode: 500, body: JSON.stringify({ error: "Missing Google API Key" }) };
     }
 
-    // 2. Call Google Gemini API
-    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`;
+    // 🛠️ SMART FIX: Ask Google which model to use (Securely)
+    let modelName = "models/gemini-pro"; // Default fallback
+    try {
+      const listResponse = await fetch(`https://generativelanguage.googleapis.com/v1beta/models?key=${API_KEY}`);
+      const listData = await listResponse.json();
+      
+      if (listData.models) {
+        // Find the first model that supports 'generateContent'
+        const bestModel = listData.models.find(m => 
+          m.name.includes("gemini") && 
+          m.supportedGenerationMethods.includes("generateContent")
+        );
+        if (bestModel) {
+            modelName = bestModel.name;
+            console.log("Auto-detected Model:", modelName);
+        }
+      }
+    } catch (e) {
+      console.log("Model detection failed, using default.");
+    }
+
+    // 2. Call Google Gemini API with the detected model
+    const url = `https://generativelanguage.googleapis.com/v1beta/${modelName}:generateContent?key=${API_KEY}`;
     
     const response = await fetch(url, {
       method: "POST",
@@ -31,11 +48,10 @@ exports.handler = async function(event, context) {
     const data = await response.json();
 
     if (!response.ok) {
-        console.error("Google API Error:", data);
+        console.error("Google Error:", data);
         return { statusCode: response.status, body: JSON.stringify(data) };
     }
 
-    // 3. Convert Google's response to the format our Frontend expects
     const reply = data.candidates[0].content.parts[0].text;
 
     return {
@@ -47,6 +63,6 @@ exports.handler = async function(event, context) {
 
   } catch (error) {
     console.error("Crash:", error);
-    return { statusCode: 500, body: JSON.stringify({ error: "Failed to connect to AI" }) };
+    return { statusCode: 500, body: JSON.stringify({ error: "Server Crash" }) };
   }
 };
