@@ -20,7 +20,8 @@ A modern, responsive AI chatbot built with vanilla JavaScript that integrates wi
 
 ##  Screenshots
 
-*(Add screenshots of your chatbot here)*
+###  Main Chat Interface
+![Chatbot Interface](images/chatbot-interface.png)*
 
 ##  Tech Stack
 
