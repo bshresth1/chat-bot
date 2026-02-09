@@ -18,7 +18,7 @@ const generateResponse = async (incomingChatLi) => {
     const messageElement = incomingChatLi.querySelector("p");
     
     try {
-        // 🔒 SAFE: Calls your hidden backend file instead of OpenAI directly
+        //  SAFE: Calls your hidden backend file instead of OpenAI directly
         const response = await fetch("/.netlify/functions/chat", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -62,4 +62,5 @@ chatInput.addEventListener("keydown", (e) => {
         e.preventDefault();
         handleChat();
     }
+
 });
