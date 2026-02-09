@@ -30,7 +30,7 @@ A modern, responsive AI chatbot built with vanilla JavaScript that integrates wi
 - **Hosting**: Netlify
 - **Icons**: Google Material Symbols
 
-## 📋 Prerequisites
+##  Prerequisites
 
 Before you begin, ensure you have:
 
