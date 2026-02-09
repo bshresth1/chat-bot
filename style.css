@@ -10,7 +10,7 @@
 }
 
 body {
-    background: #E3F2FD; /* ✅ Light Blue Background */
+    background: #E3F2FD; /*  Light Blue Background */
     height: 100vh;
     width: 100%;
     overflow: hidden;
@@ -53,13 +53,13 @@ body {
 .chatbox .chat {
     display: flex;
     list-style: none;
-    width: 100%; /* ✅ REQUIRED for alignment to work */
+    width: 100%; /*  REQUIRED for alignment to work */
     margin-bottom: 20px;
 }
 
 /* --- USER MESSAGES (RIGHT & PURPLE) --- */
 .chatbox .outgoing {
-    justify-content: flex-end; /* ✅ Moves bubble to Right */
+    justify-content: flex-end; /*  Moves bubble to Right */
 }
 
 .chatbox .outgoing p {
@@ -74,7 +74,7 @@ body {
 
 /* --- BOT MESSAGES (LEFT & GREY) --- */
 .chatbox .incoming {
-    justify-content: flex-start; /* ✅ Moves bubble to Left */
+    justify-content: flex-start; /*  Moves bubble to Left */
 }
 
 .chatbox .incoming span {
@@ -129,4 +129,5 @@ body {
     line-height: 55px;
     font-size: 2rem;
     margin-right: 10px;
+
 }
