@@ -188,7 +188,7 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 **Bishal**
 
 - GitHub: [@bshresth1](https://github.com/yourusername)
-- Project Link: [https://github.com/bshresth1/ai-chatbot](https://github.com/bshresth/chat-bot)
+- Project Link: [https://github.com/bshresth1/chat-bot](https://github.com/bshresth1/chat-bot)
 
 ##  Acknowledgments
 
