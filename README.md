@@ -21,7 +21,7 @@ A modern, responsive AI chatbot built with vanilla JavaScript that integrates wi
 ##  Screenshots
 
 ###  Main Chat Interface
-![Chatbot Interface](images/chatbot-interface.png)*
+![Chatbot Interface](Images/chatbot-interface.png)*
 
 ##  Tech Stack
 
@@ -199,7 +199,7 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 
 ##  Support
 
-If you have any questions or run into issues, please [open an issue](https://github.com/bshresth1/ai-chatbot/issues).
+If you have any questions or run into issues, please [open an issue](https://github.com/bshresth1/chat-bot/issues).
 
 ---
 
