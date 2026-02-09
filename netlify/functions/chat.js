@@ -11,7 +11,7 @@ exports.handler = async function(event, context) {
       return { statusCode: 500, body: JSON.stringify({ error: "Missing Google API Key" }) };
     }
 
-    // 🛠️ SMART FIX: Ask Google which model to use (Securely)
+    //  SMART FIX: Ask Google which model to use (Securely)
     let modelName = "models/gemini-pro"; // Default fallback
     try {
       const listResponse = await fetch(`https://generativelanguage.googleapis.com/v1beta/models?key=${API_KEY}`);
@@ -40,7 +40,7 @@ exports.handler = async function(event, context) {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         contents: [{ 
-          parts: [{ text: `You are a helpful BMW Sales Assistant. Answer this concisely: ${message}` }] 
+          parts: [{ text: `You are a helpful  Assistant. Answer this concisely: ${message}` }] 
         }]
       })
     });
@@ -66,3 +66,4 @@ exports.handler = async function(event, context) {
     return { statusCode: 500, body: JSON.stringify({ error: "Server Crash" }) };
   }
 };
+
