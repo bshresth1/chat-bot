@@ -9,10 +9,10 @@ A modern, responsive AI chatbot built with vanilla JavaScript that integrates wi
 
 -  **Real-time Chat Interface** - Clean, intuitive chat UI with smooth animations
 -  **Secure API Key Management** - API keys hidden via Netlify Functions (never exposed to client)
--  **Google Gemini AI** - Powered by Google's Gemini Pro model
+-  **Google Gemini AI** - Powered by Google's Gemini 3.5 Flash-Lite model
 -  **Modern Design** - Purple-themed UI with Material Icons
 -  **Responsive Layout** - Works seamlessly on desktop and mobile devices
--  **Auto-Model Detection** - Automatically selects the best available Gemini model
+-   **Image & Voice Input** - Upload images for the AI to analyze, or speak your message
 
 ##  Live Demo
 
