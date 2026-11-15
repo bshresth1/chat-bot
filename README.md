@@ -12,16 +12,16 @@ A modern, responsive AI chatbot built with vanilla JavaScript that integrates wi
 -  **Google Gemini AI** - Powered by Google's Gemini 3.5 Flash-Lite model
 -  **Modern Design** - Purple-themed UI with Material Icons
 -  **Responsive Layout** - Works seamlessly on desktop and mobile devices
--   **Image & Voice Input** - Upload images for the AI to analyze, or speak your message
+-  **Image & Voice Input** - Upload images for the AI to analyze, or speak your message
 
 ##  Live Demo
 
-[View Live Demo](#) *(yourdesire1.netlify.app)*
+[View Live Demo](https://yourdesire1.netlify.app)
 
 ##  Screenshots
 
 ###  Main Chat Interface
-![Chatbot Interface](Images/chatbot-interface.png)*
+![Chatbot Interface](Images/chatbot-interface.png)
 
 ##  Tech Stack
 
@@ -36,7 +36,7 @@ A modern, responsive AI chatbot built with vanilla JavaScript that integrates wi
 Before you begin, ensure you have:
 
 - A [Netlify](https://www.netlify.com/) account
-- A [Google AI Studio](https://makersuite.google.com/app/apikey) API key for Gemini
+- A [Google AI Studio](https://aistudio.google.com/apikey) API key for Gemini
 - Git installed on your machine
 - A code editor (VS Code recommended)
 
@@ -45,14 +45,14 @@ Before you begin, ensure you have:
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/yourusername/ai-chatbot.git
-cd ai-chatbot
+git clone https://github.com/bshresth1/chat-bot.git
+cd chat-bot
 ```
 
 ### 2. Project Structure
 
 ```
-ai-chatbot/
+chat-bot/
 ├── netlify/
 │   └── functions/
 │       └── chat.js          # Serverless function (handles API calls)
@@ -64,7 +64,7 @@ ai-chatbot/
 
 ### 3. Get Your Google API Key
 
-1. Go to [Google AI Studio](https://makersuite.google.com/app/apikey)
+1. Go to [Google AI Studio](https://aistudio.google.com/apikey)
 2. Click "Create API Key"
 3. Copy your API key (keep it safe!)
 
@@ -130,13 +130,15 @@ netlify deploy --prod
 
 ### Change Chatbot Personality
 
-Edit the system prompt in `netlify/functions/chat.js`:
+Edit the system instruction in `netlify/functions/chat.js`:
 
 ```javascript
-parts: [{ text: `You are a helpful  Assistant. Answer this concisely: ${message}` }]
+system_instruction: {
+    parts: [{ text: "You are a helpful assistant. Answer concisely and accurately." }]
+},
 ```
 
-Replace `" Assistant"` with your desired role.
+Change the text to give the chatbot a different role or personality.
 
 ### Modify Theme Colors
 
@@ -187,7 +189,7 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 
 **Bishal**
 
-- GitHub: [@bshresth1](https://github.com/yourusername)
+- GitHub: [@bshresth1](https://github.com/bshresth1)
 - Project Link: [https://github.com/bshresth1/chat-bot](https://github.com/bshresth1/chat-bot)
 
 ##  Acknowledgments
