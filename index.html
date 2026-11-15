@@ -7,7 +7,6 @@
     
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap">
-
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -23,14 +22,24 @@
                 <p>Welcome to Bishal AI ! 👋<br>How can I help you today?</p>
             </li>
         </ul>
+
+        <!-- ✅ MOVED INSIDE chatbot div -->
+        <div id="image-preview-container" style="display:none;">
+            <div id="image-preview-wrapper">
+                <img id="image-preview" src="" alt="preview">
+                <span id="remove-image">✕</span>
+            </div>
+        </div>
         
         <div class="chat-input">
             <textarea placeholder="Type your message..."></textarea>
+            <input type="file" id="image-input" accept="image/*" hidden>
+            <span id="image-btn" class="material-symbols-outlined">image</span>
+            <span id="voice-btn" class="material-symbols-outlined">mic</span>
             <span id="send-btn" class="material-symbols-outlined">send</span>
         </div>
     </div>
 
     <script src="script.js" defer></script>
-
 </body>
 </html>

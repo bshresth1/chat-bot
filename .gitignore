@@ -1,0 +1,11 @@
+# Local Netlify folder
+.netlify
+
+# Secret API key
+.env
+
+# Local database
+my_database.db
+
+# Installed packages
+node_modules/

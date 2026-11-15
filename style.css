@@ -130,3 +130,90 @@ body {
     font-size: 2rem;
     margin-right: 10px;
 }
+/* Voice Button */
+#voice-btn {
+    align-self: flex-end;
+    color: #724ae8;
+    cursor: pointer;
+    height: 55px;
+    line-height: 55px;
+    font-size: 2rem;
+    margin-right: 5px;
+    transition: color 0.3s;
+}
+
+/* When recording - button turns red */
+#voice-btn.recording {
+    color: red;
+    animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+    0%   { transform: scale(1); }
+    50%  { transform: scale(1.2); }
+    100% { transform: scale(1); }
+}
+/* Image Upload Button */
+#image-btn {
+    align-self: flex-end;
+    color: #724ae8;
+    cursor: pointer;
+    height: 55px;
+    line-height: 55px;
+    font-size: 2rem;
+    margin-right: 5px;
+    transition: color 0.3s;
+}
+
+#image-btn:hover {
+    color: #5a35c7;
+}
+
+/* Image Preview Box */
+#image-preview-container {
+    position: absolute;
+    bottom: 80px;
+    left: 10px;
+    right: 10px;
+    background: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+#image-preview-wrapper {
+    position: relative;
+    display: inline-block;
+}
+
+#image-preview {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 2px solid #724ae8;
+}
+
+#remove-image {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background: red;
+    color: white;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    text-align: center;
+    line-height: 20px;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+/* Image inside chat bubble */
+.chat-image {
+    max-width: 200px;
+    max-height: 200px;
+    border-radius: 8px;
+    margin-bottom: 5px;
+    display: block;
+}

@@ -1,68 +1,78 @@
-exports.handler = async function(event, context) {
-  if (event.httpMethod !== "POST") {
-    return { statusCode: 405, body: "Method Not Allowed" };
-  }
+// netlify/functions/chat.js
+// Runs on the server (Netlify), so your API key stays secret.
 
-  try {
-    const { message } = JSON.parse(event.body);
-    const API_KEY = process.env.GOOGLE_API_KEY; 
+const MODEL = "gemini-3.5-flash-lite"; // fast, low-cost Gemini model
 
-    if (!API_KEY) {
-      return { statusCode: 500, body: JSON.stringify({ error: "Missing Google API Key" }) };
+exports.handler = async (event) => {
+    if (event.httpMethod !== "POST") {
+        return { statusCode: 405, body: JSON.stringify({ error: "Use POST" }) };
     }
 
-    //  SMART FIX: Ask Google which model to use (Securely)
-    let modelName = "models/gemini-pro"; // Default fallback
+    const apiKey = process.env.GOOGLE_API_KEY;
+    if (!apiKey) {
+        return { statusCode: 500, body: JSON.stringify({ error: "GOOGLE_API_KEY is missing" }) };
+    }
+
     try {
-      const listResponse = await fetch(`https://generativelanguage.googleapis.com/v1beta/models?key=${API_KEY}`);
-      const listData = await listResponse.json();
-      
-      if (listData.models) {
-        // Find the first model that supports 'generateContent'
-        const bestModel = listData.models.find(m => 
-          m.name.includes("gemini") && 
-          m.supportedGenerationMethods.includes("generateContent")
-        );
-        if (bestModel) {
-            modelName = bestModel.name;
-            console.log("Auto-detected Model:", modelName);
+        const { message, image } = JSON.parse(event.body || "{}");
+
+        // Build the message parts (text + optional image)
+        const parts = [];
+        if (image) {
+            // image looks like "data:image/png;base64,AAAA..."
+            const [header, base64Data] = image.split(",");
+            const mimeType = header.match(/data:(.*?);base64/)[1];
+            parts.push({ inline_data: { mime_type: mimeType, data: base64Data } });
         }
-      }
-    } catch (e) {
-      console.log("Model detection failed, using default.");
+        parts.push({ text: message || "What is in this image? Describe it." });
+
+        // Give up after 9 seconds so we get a clear error instead of a timeout
+        const controller = new AbortController();
+        const timer = setTimeout(() => controller.abort(), 9000);
+
+        const response = await fetch(
+            `https://generativelanguage.googleapis.com/v1beta/models/${MODEL}:generateContent`,
+            {
+                method: "POST",
+                signal: controller.signal,
+                headers: {
+                    "Content-Type": "application/json",
+                    "x-goog-api-key": apiKey
+                },
+                body: JSON.stringify({
+                    system_instruction: {
+                        parts: [{ text: "You are a helpful assistant. Answer concisely and accurately." }]
+                    },
+                    contents: [{ role: "user", parts }]
+                })
+            }
+        );
+
+        clearTimeout(timer);
+        const data = await response.json();
+
+        if (!response.ok) {
+            return {
+                statusCode: response.status,
+                body: JSON.stringify({ error: data.error?.message || "Gemini request failed" })
+            };
+        }
+
+        const reply = (data.candidates?.[0]?.content?.parts || [])
+            .map((p) => p.text || "")
+            .join("")
+            .trim();
+
+        return {
+            statusCode: 200,
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ reply: reply || "Sorry, I couldn't generate a reply." })
+        };
+    } catch (err) {
+        console.error("Gemini error:", err);
+        const msg = err.name === "AbortError"
+            ? "Google did not answer within 9 seconds. Check your internet, firewall/antivirus (McAfee), or API key."
+            : err.message;
+        return { statusCode: 500, body: JSON.stringify({ error: msg }) };
     }
-
-    // 2. Call Google Gemini API with the detected model
-    const url = `https://generativelanguage.googleapis.com/v1beta/${modelName}:generateContent?key=${API_KEY}`;
-    
-    const response = await fetch(url, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        contents: [{ 
-          parts: [{ text: `You are a helpful Assistant. Answer this concisely: ${message}` }] 
-        }]
-      })
-    });
-
-    const data = await response.json();
-
-    if (!response.ok) {
-        console.error("Google Error:", data);
-        return { statusCode: response.status, body: JSON.stringify(data) };
-    }
-
-    const reply = data.candidates[0].content.parts[0].text;
-
-    return {
-      statusCode: 200,
-      body: JSON.stringify({ 
-        choices: [{ message: { content: reply } }] 
-      })
-    };
-
-  } catch (error) {
-    console.error("Crash:", error);
-    return { statusCode: 500, body: JSON.stringify({ error: "Server Crash" }) };
-  }
 };
